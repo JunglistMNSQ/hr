@@ -4,7 +4,7 @@
 from odoo import api, models
 
 
-class HrHolidays(models.Model):
+class HrLeave(models.Model):
     _inherit = 'hr.leave'
 
     def _get_number_of_days(self, date_from, date_to, employee_id):
@@ -16,7 +16,7 @@ class HrHolidays(models.Model):
             )
         else:
             obj = self
-        return super(HrHolidays, obj)._get_number_of_days(
+        return super(HrLeave, obj)._get_number_of_days(
             date_from, date_to, employee_id,
         )
 
@@ -25,4 +25,6 @@ class HrHolidays(models.Model):
         """Trigger the number of days computation also when you change the
         employee or the leave type.
         """
-        self._onchange_date_to()
+        # self._onchange_date_to()
+        self._compute_number_of_days()
+

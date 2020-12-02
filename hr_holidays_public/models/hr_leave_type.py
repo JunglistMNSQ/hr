@@ -4,7 +4,7 @@
 from odoo import fields, models
 
 
-class HrHolidaysStatus(models.Model):
+class HrLeaveType(models.Model):
     _inherit = 'hr.leave.type'
 
     exclude_public_holidays = fields.Boolean(
