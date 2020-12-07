@@ -19,7 +19,7 @@ class ResourceCalendar(models.Model):
         :return: List of tuples with (start_date, end_date) as elements.
         """
         leaves = []
-        for day in rrule.rrule(rrule.YEARLY, dtstart=start_dt, until=end_dt):
+        for day in rrule.rrule(rrule.DAILY, dtstart=start_dt, until=end_dt):
             lines = self.env['hr.holidays.public'].get_holidays_list(
                 day.year, employee_id=employe_id,
             )
@@ -34,18 +34,10 @@ class ResourceCalendar(models.Model):
                 )
         return leaves
 
-    # @api.multi
-    def _leave_intervals(self, start_dt, end_dt, resource=None, domain=None, tz=None):
-        res = super(ResourceCalendar, self)._leave_intervals(
-            start_dt=start_dt, end_dt=end_dt, resource=resource
+    def _leave_intervals_batch(self, start_dt, end_dt, resources=None, domain=None, tz=None):
+        res = super(ResourceCalendar, self)._leave_intervals_batch(
+            start_dt=start_dt, end_dt=end_dt, resources=resources, domain=domain, tz=tz
         )
-    # def _get_leave_intervals(self, resource_id=None,
-    #                          start_datetime=None, end_datetime=None):
-    #     res = super(ResourceCalendar, self)._get_leave_intervals(
-    #         resource_id=resource_id,
-    #         start_datetime=start_datetime,
-    #         end_datetime=end_datetime,
-    #     )
         if self.env.context.get('exclude_public_holidays'):
             res += self._get_holidays_public_leaves(
                 start_dt, end_dt,

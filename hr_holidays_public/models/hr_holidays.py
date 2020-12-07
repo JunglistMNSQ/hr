@@ -27,4 +27,3 @@ class HrLeave(models.Model):
         """
         # self._onchange_date_to()
         self._compute_number_of_days()
-
